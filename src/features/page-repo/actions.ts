@@ -31,7 +31,6 @@ export const fetchRepoList = (org: string): AppThunk<void> => async (
     headers,
   });
   const data = await res.json();
-  console.log('DADATA: ', data);
 
   if (res.status === 200) {
     dispatch({
