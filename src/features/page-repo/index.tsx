@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { H1, PageWrap } from '../../components/primitives';
 import Pagination from '../../components/pagination';
 import Avatar from '../../components/avatar';
+import Loader from '../../components/loader';
 import Table from '../../components/table';
 import { CellCustomRenderer } from '../../components/table/types';
 
@@ -24,6 +25,7 @@ const PageRepo = () => {
 
   return (
     <PageWrap>
+      <Loader loading={loading} />
       <H1>Facebook repos</H1>
       <Table<IRepo>
         data={data}
