@@ -41,12 +41,19 @@ const BarChart: React.FC<Props> = ({ data }) => {
         .call((g: any) => g.select('.domain').remove())
         .call((g: any) =>
           g
+            .selectAll('.tick line')
+            .clone()
+            .attr('x2', width)
+            .attr('stroke-dasharray', 4)
+            .attr('stroke-opacity', 0.3),
+        )
+        .call((g: any) =>
+          g
             .append('text')
             .attr('x', -margin.left)
             .attr('y', 10)
             .attr('fill', 'currentColor')
-            .attr('text-anchor', 'start')
-            .attr('transform', `rotate(45deg)`),
+            .attr('text-anchor', 'start'),
         );
     /** Clear baseSvg */
     d3.select(chartRef.current).selectAll('svg').remove();
