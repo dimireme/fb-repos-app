@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { H1, PageWrap } from '../../components/primitives';
 import Pagination from '../../components/pagination';
+import Avatar from '../../components/avatar';
 import Table from '../../components/table';
 import { CellCustomRenderer } from '../../components/table/types';
 
@@ -41,6 +42,7 @@ const PageRepo = () => {
             cell: ((value: IOwner) => (
               <Avatar label={value.login} url={value.avatar_url} />
             )) as CellCustomRenderer<IRepo>,
+            width: '200px',
           },
         ]}
       />
