@@ -12,7 +12,7 @@ const Searcher: React.FC<Props> = ({ value, onChange, onSubmit }) => {
   };
 
   return (
-    <div style={{ margin: '16px 0' }}>
+    <form style={{ margin: '16px 0' }} onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
         placeholder="Поиск..."
@@ -20,8 +20,10 @@ const Searcher: React.FC<Props> = ({ value, onChange, onSubmit }) => {
         onChange={handleChange}
         style={{ marginRight: '16px' }}
       />
-      <button onClick={onSubmit}>искать</button>
-    </div>
+      <button type="submit" onClick={onSubmit}>
+        искать
+      </button>
+    </form>
   );
 };
 
