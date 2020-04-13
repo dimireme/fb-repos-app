@@ -18,12 +18,16 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
-  a {
-    color: #1e88e5;
-
-    :hover {
-      opacity: 0.8;
-    }
+  .chart-tooltip {
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
   }
 `;
 

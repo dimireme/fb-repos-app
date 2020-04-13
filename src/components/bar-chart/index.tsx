@@ -54,6 +54,12 @@ const BarChart: React.FC<Props> = ({ data }) => {
     /** Define new baseSvg */
     const baseSvg = d3.select(chartRef.current).append('svg');
 
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'chart-tooltip')
+      .style('opacity', 0);
+
     baseSvg
       .attr('viewBox', `0, 0, ${width}, ${height}`)
       .attr('width', width)
@@ -68,7 +74,23 @@ const BarChart: React.FC<Props> = ({ data }) => {
       .attr('x', (d, i: any) => String(x(i.toString()) ?? ''))
       .attr('y', (d: IRepo) => y(d.open_issues_count))
       .attr('height', (d: IRepo) => y(0) - y(d.open_issues_count))
-      .attr('width', x.bandwidth());
+      .attr('width', x.bandwidth())
+      .on('mouseover', function (d) {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+          .html(
+            'Репозиторий: ' +
+              d.name +
+              '<br/>' +
+              'Открыто задач: ' +
+              d.open_issues_count,
+          )
+          .style('left', d3.event.pageX + 'px')
+          .style('top', d3.event.pageY - 28 + 'px');
+      })
+      .on('mouseout', function (d) {
+        tooltip.transition().duration(500).style('opacity', 0);
+      });
 
     baseSvg.append('g').call(xAxis);
     baseSvg.append('g').call(yAxis);
