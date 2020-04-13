@@ -6,6 +6,7 @@ import Pagination from '../../components/pagination';
 import Avatar from '../../components/avatar';
 import Loader from '../../components/loader';
 import Table from '../../components/table';
+import BarChart from '../../components/bar-chart';
 import Searcher from '../../components/searcher';
 import { CellCustomRenderer } from '../../components/table/types';
 
@@ -71,6 +72,8 @@ const PageRepo = () => {
         ]}
       />
       <Pagination page={page} setPage={handleChangePage} total={total} />
+
+      <BarChart data={data} />
     </PageWrap>
   );
 };
