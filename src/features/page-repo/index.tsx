@@ -7,19 +7,17 @@ import Table from '../../components/table';
 import { CellCustomRenderer } from '../../components/table/types';
 
 import { fetchRepoList, setPage } from './actions';
-import { getPage, getHasNextPage, getRepos } from './selectors';
+import { getPage, getTotal, getRepos } from './selectors';
 import { IOwner, IRepo } from './types';
-
-const ORG = 'facebook';
 
 const PageRepo = () => {
   const dispatch = useDispatch();
   const page = useSelector(getPage);
-  const hasNextPage = useSelector(getHasNextPage);
+  const total = useSelector(getTotal);
   const data = useSelector(getRepos);
 
   useEffect(() => {
-    dispatch(fetchRepoList(ORG));
+    dispatch(fetchRepoList());
   }, [dispatch, page]);
 
   return (
@@ -30,9 +28,10 @@ const PageRepo = () => {
         keyName="id"
         columns={[
           { key: 'id' as keyof IRepo, label: '#', width: '110px' },
+          { key: 'name' as keyof IRepo, label: 'Название', width: '200px' },
           { key: 'description' as keyof IRepo, label: 'Описание' },
           {
-            key: 'open_issues' as keyof IRepo,
+            key: 'open_issues_count',
             label: 'Открыто задач',
             width: '200px',
           },
@@ -40,9 +39,7 @@ const PageRepo = () => {
             key: 'owner' as keyof IRepo,
             label: 'Кампания',
             cell: ((value: IOwner) => (
-              <span>
-                {value.login} {value.avatar_url}
-              </span>
+              <Avatar label={value.login} url={value.avatar_url} />
             )) as CellCustomRenderer<IRepo>,
           },
         ]}
@@ -50,7 +47,7 @@ const PageRepo = () => {
       <Pagination
         page={page}
         setPage={(p) => dispatch(setPage(p))}
-        hasNextPage={hasNextPage}
+        total={total}
       />
     </PageWrap>
   );

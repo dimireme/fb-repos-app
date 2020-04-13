@@ -1,28 +1,29 @@
 import React, { useMemo } from 'react';
 
-import { Container, Item, ArrowLeft } from './styled';
+import { Container, Item, ArrowLeft, ArrowRight } from './styled';
 
-const PAGE_GAP_LEFT = 2; // сколько страниц слева от текущей нужно показывать
+const PAGE_GAP = 2; // сколько страниц слева и справа от текущей нужно показывать
 
 type Props = {
   page: number;
-  hasNextPage: boolean;
+  total: number;
   setPage: (page: number) => any;
 };
 
-const Pagination: React.FC<Props> = ({ page, hasNextPage, setPage }) => {
+const Pagination: React.FC<Props> = ({ page, total, setPage }) => {
   // Генерируем массив отображаемых страниц.
-  // Наличие страинцы справа зависит от hasNextPage.
-  // Количество страниц слева от текущей высчитывается в зависимости от PAGE_GAP_LEFT.
+  // Количество страниц слева и справа от текущей высчитывается в зависимости от PAGE_GAP.
   const pages = useMemo(
     () =>
-      Array.from({ length: page + Number(hasNextPage) }, (v, k) => k).slice(
-        Math.max(page - PAGE_GAP_LEFT - 1, 0),
+      Array.from({ length: total }, (v, k) => k).slice(
+        Math.max(page - PAGE_GAP - 1, 0),
+        Math.min(page + PAGE_GAP, total),
       ),
-    [hasNextPage, page],
+    [total, page],
   );
 
-  const showLeftArrow = page > PAGE_GAP_LEFT;
+  const showLeftArrow = page > PAGE_GAP;
+  const showRightArrow = total - page > PAGE_GAP;
 
   return (
     <Container>
@@ -40,6 +41,11 @@ const Pagination: React.FC<Props> = ({ page, hasNextPage, setPage }) => {
           {item + 1}
         </Item>
       ))}
+      {showRightArrow ? (
+        <Item key="lastPage" onClick={() => setPage(total)}>
+          <ArrowRight />
+        </Item>
+      ) : null}
     </Container>
   );
 };

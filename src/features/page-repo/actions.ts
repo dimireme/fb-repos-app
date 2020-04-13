@@ -11,9 +11,10 @@ import {
 import { getPage } from './selectors';
 
 const PAGE_SIZE = 10;
+const ORG = 'facebook';
 
 // ЗАПРОС СПИСКА РЕПОЗИТОРИЕВ
-export const fetchRepoList = (org: string): AppThunk<void> => async (
+export const fetchRepoList = (search?: string): AppThunk<void> => async (
   dispatch,
   getState,
 ) => {
@@ -22,12 +23,15 @@ export const fetchRepoList = (org: string): AppThunk<void> => async (
   const page = getPage(state);
   const headers = getHeaders();
 
+  const q = search ? `${search}+org:${ORG}` : `org:${ORG}`;
+
   const qs = queryString.stringify({
-    per_page: PAGE_SIZE + 1,
+    per_page: PAGE_SIZE,
     page,
+    q,
   });
 
-  const res = await fetch(getApiUrl(`/orgs/${org}/repos?${qs}`), {
+  const res = await fetch(getApiUrl(`/search/repositories?${qs}`), {
     headers,
   });
   const data = await res.json();
@@ -36,8 +40,8 @@ export const fetchRepoList = (org: string): AppThunk<void> => async (
     dispatch({
       type: FETCH_REPOS_SUCCESS,
       payload: {
-        list: data.slice(0, PAGE_SIZE),
-        hasNextPage: data.length > PAGE_SIZE,
+        list: data.items,
+        total: Math.ceil(data.total_count / PAGE_SIZE),
       },
     });
   } else {

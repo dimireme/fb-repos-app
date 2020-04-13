@@ -12,7 +12,7 @@ const defaultState: RepoState = {
   list: [],
   page: 1,
   loading: false,
-  hasNextPage: false,
+  total: 0,
   error: null,
 };
 
@@ -29,7 +29,7 @@ export default (state = defaultState, action: ActionTypes): RepoState => {
         ...state,
         loading: false,
         list: action.payload.list,
-        hasNextPage: action.payload.hasNextPage,
+        total: action.payload.total,
       };
     case FETCH_REPOS_FAIL:
       return {

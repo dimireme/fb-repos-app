@@ -39,3 +39,7 @@ export const ArrowLeft = styled.div`
   transform: rotate(-45deg);
 `;
 ArrowLeft.displayName = 'ArrowLeft';
+
+export const ArrowRight = styled(ArrowLeft)`
+  transform: rotate(135deg);
+`;

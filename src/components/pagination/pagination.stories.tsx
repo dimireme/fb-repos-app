@@ -6,12 +6,12 @@ export default {
 };
 
 export const defaultPagination = () => (
-  <Pagination page={1} hasNextPage={false} setPage={() => null} />
+  <Pagination page={1} total={1} setPage={() => null} />
 );
 
 const ControledPagination = () => {
   const [page, setPage] = useState(1);
-  return <Pagination page={page} setPage={setPage} hasNextPage={true} />;
+  return <Pagination page={page} setPage={setPage} total={10} />;
 };
 
 export const controledPagination = () => <ControledPagination />;
