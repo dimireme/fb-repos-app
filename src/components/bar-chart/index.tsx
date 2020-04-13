@@ -97,7 +97,14 @@ const BarChart: React.FC<Props> = ({ data }) => {
       })
       .on('mouseout', function (d) {
         tooltip.transition().duration(500).style('opacity', 0);
-      });
+      })
+      .append('animate')
+      .attr('attributeName', 'height')
+      .attr('attributeType', 'XML')
+      .attr('from', 0)
+      .attr('to', (d: IRepo) => y(0) - y(d.open_issues_count))
+      .attr('begin', '0s')
+      .attr('dur', '0.3s');
 
     baseSvg.append('g').call(xAxis);
     baseSvg.append('g').call(yAxis);
