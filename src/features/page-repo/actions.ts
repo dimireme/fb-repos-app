@@ -8,27 +8,27 @@ import {
   SET_REPOS_PAGE,
   ActionTypes,
 } from './types';
-import { getPage } from './selectors';
 
 const PAGE_SIZE = 10;
 const ORG = 'facebook';
 
-// ЗАПРОС СПИСКА РЕПОЗИТОРИЕВ
-export const fetchRepoList = (search?: string): AppThunk<void> => async (
-  dispatch,
-  getState,
-) => {
-  dispatch({ type: FETCH_REPOS_REQUEST });
-  const state = getState();
-  const page = getPage(state);
-  const headers = getHeaders();
+type FetchRepoListProps = {
+  page: number;
+  search?: string;
+};
 
-  const q = search ? `${search}+org:${ORG}` : `org:${ORG}`;
+// ЗАПРОС СПИСКА РЕПОЗИТОРИЕВ
+export const fetchRepoList = ({
+  search,
+  page,
+}: FetchRepoListProps): AppThunk<void> => async (dispatch) => {
+  dispatch({ type: FETCH_REPOS_REQUEST });
+  const headers = getHeaders();
 
   const qs = queryString.stringify({
     per_page: PAGE_SIZE,
+    q: search ? `${search}+org:${ORG}` : `org:${ORG}`,
     page,
-    q,
   });
 
   const res = await fetch(getApiUrl(`/search/repositories?${qs}`), {
