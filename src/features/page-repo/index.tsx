@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { H1, PageWrap } from '../../components/primitives';
@@ -20,6 +20,8 @@ const PageRepo = () => {
   const data = useSelector(getRepos);
   const loading = useSelector(getLoading);
 
+  const [search, setSearch] = useState('');
+
   const handleFetchRepos = useCallback(
     (page: number, search?: string) => {
       dispatch(fetchRepoList({ page, search }));
@@ -29,13 +31,23 @@ const PageRepo = () => {
 
   useEffect(() => {
     handleFetchRepos(page);
-  }, [dispatch, page, handleFetchRepos]);
+  }, []); // eslint-disable-line
+
+  const handleSearch = () => {
+    dispatch(setPage(1));
+    handleFetchRepos(1, search);
+  };
+
+  const handleChangePage = (page: number) => {
+    dispatch(setPage(page));
+    handleFetchRepos(page, search);
+  };
 
   return (
     <PageWrap>
       <Loader loading={loading} />
       <H1>Facebook repos</H1>
-      <Searcher onSubmit={(search) => handleFetchRepos(0, search)} />
+      <Searcher value={search} onChange={setSearch} onSubmit={handleSearch} />
       <Table<IRepo>
         data={data}
         keyName="id"
@@ -58,11 +70,7 @@ const PageRepo = () => {
           },
         ]}
       />
-      <Pagination
-        page={page}
-        setPage={(p) => dispatch(setPage(p))}
-        total={total}
-      />
+      <Pagination page={page} setPage={handleChangePage} total={total} />
     </PageWrap>
   );
 };
