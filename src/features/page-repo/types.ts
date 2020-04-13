@@ -6,16 +6,17 @@ export type IOwner = {
 
 export type IRepo = {
   id: number;
-  open_issues: number;
-  owner: IOwner;
+  name: string;
   description: string;
+  open_issues_count: number;
+  owner: IOwner;
 };
 
 export type RepoState = {
   list: IRepo[];
   page: number;
   loading: boolean;
-  hasNextPage: boolean;
+  total: number;
   error: string | null;
 };
 
@@ -32,7 +33,7 @@ interface FetchReposSuccessAction {
   type: typeof FETCH_REPOS_SUCCESS;
   payload: {
     list: IRepo[];
-    hasNextPage: boolean;
+    total: number;
   };
 }
 
