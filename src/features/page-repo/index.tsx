@@ -8,7 +8,7 @@ import Table from '../../components/table';
 import { CellCustomRenderer } from '../../components/table/types';
 
 import { fetchRepoList, setPage } from './actions';
-import { getPage, getTotal, getRepos } from './selectors';
+import { getPage, getTotal, getRepos, getLoading } from './selectors';
 import { IOwner, IRepo } from './types';
 
 const PageRepo = () => {
@@ -16,6 +16,7 @@ const PageRepo = () => {
   const page = useSelector(getPage);
   const total = useSelector(getTotal);
   const data = useSelector(getRepos);
+  const loading = useSelector(getLoading);
 
   useEffect(() => {
     dispatch(fetchRepoList());

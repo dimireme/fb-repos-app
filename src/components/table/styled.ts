@@ -30,6 +30,7 @@ export const TH = styled.th`
   white-space: pre-wrap;
   line-height: 20px;
   vertical-align: middle;
+  box-sizing: border-box;
   &:first-child {
     padding-left: 16px;
   }
