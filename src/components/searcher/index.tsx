@@ -1,32 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type Props = {
-  onSubmit: (value: string) => void;
-  value?: string;
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
 };
 
-const Searcher: React.FC<Props> = ({ value, onSubmit }) => {
-  const [search, setSearch] = useState(value ?? '');
-
+const Searcher: React.FC<Props> = ({ value, onChange, onSubmit }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-
-  const handleSubmit = () => {
-    onSubmit(search);
+    onChange(event.target.value);
   };
 
   return (
-    <div style={{ margin: '16px 0' }}>
+    <form style={{ margin: '16px 0' }} onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
         placeholder="Поиск..."
-        value={search}
+        value={value}
         onChange={handleChange}
         style={{ marginRight: '16px' }}
       />
-      <button onClick={handleSubmit}>искать</button>
-    </div>
+      <button type="submit" onClick={onSubmit}>
+        искать
+      </button>
+    </form>
   );
 };
 
