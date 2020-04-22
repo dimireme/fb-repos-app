@@ -8,7 +8,6 @@ import Loader from '../../components/loader';
 import Table from '../../components/table';
 import BarChart from '../../components/bar-chart';
 import Searcher from '../../components/searcher';
-import { CellCustomRenderer } from '../../components/table/types';
 
 import { fetchRepoList, setPage } from './actions';
 import { getPage, getTotal, getRepos, getLoading } from './selectors';
@@ -53,20 +52,21 @@ const PageRepo = () => {
         data={data}
         keyName="id"
         columns={[
-          { key: 'id' as keyof IRepo, label: '#', width: '110px' },
-          { key: 'name' as keyof IRepo, label: 'Название', width: '200px' },
-          { key: 'description' as keyof IRepo, label: 'Описание' },
+          { key: 'id', label: '#', width: '110px' },
+          { key: 'name', label: 'Название', width: '200px' },
+          { key: 'description', label: 'Описание' },
           {
             key: 'open_issues_count',
             label: 'Открыто задач',
             width: '200px',
+            cell: (val) => val,
           },
           {
-            key: 'owner' as keyof IRepo,
+            key: 'owner',
             label: 'Кампания',
-            cell: ((value: IOwner) => (
+            cell: (value: IOwner) => (
               <Avatar label={value.login} url={value.avatar_url} />
-            )) as CellCustomRenderer<IRepo>,
+            ),
             width: '200px',
           },
         ]}

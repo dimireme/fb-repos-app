@@ -1,4 +1,4 @@
-import { ReactNode, ReactElement } from 'react';
+import { ReactNode } from 'react';
 
 export type CellCustomRenderer<T> = (
   value: T[keyof T],
@@ -7,6 +7,6 @@ export type CellCustomRenderer<T> = (
 export interface IColumn<T> {
   label: string;
   key: keyof T;
-  cell?: CellCustomRenderer<T>;
+  cell?: (value: any) => ReactNode | string | number;
   width?: string;
 }
